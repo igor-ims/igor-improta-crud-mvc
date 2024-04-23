@@ -13,6 +13,6 @@ public interface IDAOLibro {
     boolean modificarLibro(Libro libro);
     boolean borrarLibroId(int id);
     List<Libro> obtenerTodosLibros();
-    boolean existeLibroIsbn(String isbn);
+    int obtenerIdIsbn(String isbn);
     void crearTablaLibros();
 }

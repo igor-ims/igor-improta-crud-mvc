@@ -17,13 +17,12 @@ public class ControllerLibro {
         this.dao.crearTablaLibros();
     }
 
-    public boolean existeLibroIsbn(String isbn){
-        return this.dao.existeLibroIsbn(isbn);
+    public int obtenerIdIsbn(String isbn){
+        return this.dao.obtenerIdIsbn(isbn);
     }
 
     public Libro crearLibro(String nombre, String autor, String isbn){
-        if(dao.existeLibroIsbn(isbn)){
-            System.out.println("Ya existe un libro con el mismo ISBN.");
+        if(dao.obtenerIdIsbn(isbn) != -1){
             return null;
         }
         return dao.crearLibro(nombre, autor, isbn);

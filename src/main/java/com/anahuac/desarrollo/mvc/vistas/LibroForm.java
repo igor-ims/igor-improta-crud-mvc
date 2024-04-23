@@ -157,9 +157,14 @@ public class LibroForm extends JFrame implements ActionListener{
                 autor != null && !autor.equals("") &&
                 isbn != null && !isbn.equals("")){
                     Libro libro = controller.crearLibro(titulo, autor, isbn);
-                    JOptionPane.showMessageDialog(null, "Libro Insertado:\n" + libro);
-                    campoInsertarTitulo.setText("");
-                    campoInsertarAutor.setText("");
+                    if(libro != null){
+                        JOptionPane.showMessageDialog(null, "Libro Insertado:\n" + libro);
+                        campoInsertarTitulo.setText("");
+                        campoInsertarAutor.setText("");
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null, "Ya existe un libro con el ISBN '" + isbn + "'.");
+                    }
                     campoInsertarIsbn.setText("");
             }
             else{
@@ -230,18 +235,24 @@ public class LibroForm extends JFrame implements ActionListener{
                 isbn != null && !isbn.equals("")){
                     Libro libro = controller.obtenerLibroId(Integer.parseInt(id));
                     if(libro != null){
-                        libro.setTitulo(titulo);
-                        libro.setAutor(autor);
-                        libro.setIsbn(isbn);
-                        if(controller.modificarLibro(libro)){
-                            JOptionPane.showMessageDialog(null, "Libro modificado:\n" + libro);
-                            campoModificarId.setText("");
-                            campoModificarTitulo.setText("");
-                            campoModificarAutor.setText("");
-                            campoModificarIsbn.setText("");
+                        if(controller.obtenerIdIsbn(isbn) == -1 || controller.obtenerIdIsbn(isbn) == Integer.parseInt(id)){
+                            libro.setTitulo(titulo);
+                            libro.setAutor(autor);
+                            libro.setIsbn(isbn);
+                            if(controller.modificarLibro(libro)){
+                                JOptionPane.showMessageDialog(null, "Libro modificado:\n" + libro);
+                                campoModificarId.setText("");
+                                campoModificarTitulo.setText("");
+                                campoModificarAutor.setText("");
+                                campoModificarIsbn.setText("");
+                            }
+                            else{
+                                JOptionPane.showMessageDialog(null, "Error al modificar el libro." );
+                            }
                         }
                         else{
-                            JOptionPane.showMessageDialog(null, "Error al modificar el libro." );
+                            JOptionPane.showMessageDialog(null, "Ya existe un libro con el ISBN '" + isbn + "'");
+                            campoModificarIsbn.setText(isbn);
                         }
                     }
                     else{

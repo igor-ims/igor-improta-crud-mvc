@@ -87,8 +87,8 @@ public class DAOLibro implements IDAOLibro{
         return maxId;
     }
     
-    public boolean existeLibroIsbn(String isbn){
-        boolean existe = false;
+    public int obtenerIdIsbn(String isbn){
+        int existe = -1;
 
         try {
             Connection conn = this.getConnection();
@@ -96,15 +96,14 @@ public class DAOLibro implements IDAOLibro{
             ps.setString(1, isbn);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                existe = true;
+                existe = rs.getInt("id");
             }
             rs.close();
             ps.close();
             conn.close();
         } catch (Exception e) {
-            System.out.println("Error al obtener el ID máximo: " + e);
+            System.out.println("Error al obtener el ID: " + e);
         }
-
         return existe;
     }
 
